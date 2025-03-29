@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-gradient-to-br from-[#0b0f2f] to-[#0a0d26] min-h-screen flex items-center justify-center p-4">
+    <img
+        src="/Image/OrthoBerry-removebg.png"
+        alt="logo"
+        class="absolute top-6 left-2 w-[200px] cursor-pointer"
+        onclick="window.location.href='index.html'"
+    />
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+        <h2 class="text-center text-2xl font-bold mb-6">Login to Demo Account</h2>
+        
+        <form id="loginForm" class="space-y-4" onsubmit="return handleLogin(event)">
+            <div>
+                <label for="userID" class="block text-sm font-medium mb-1">User ID</label>
+                <input 
+                    type="text" 
+                    id="userID" 
+                    placeholder="User ID" 
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="off">
+                <p id="userIDError" class="text-red-500 text-sm mt-1 hidden">User ID is required.</p>
+            </div>
+
+            <div class="relative">
+                <label for="password" class="block text-sm font-medium mb-1">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="Enter your password" 
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10" 
+                />
+                <button 
+                    type="button" 
+                    onclick="togglePassword()" 
+                    class="absolute top-9 right-3 text-gray-500 focus:outline-none">
+                    <i id="eyeIcon" class="ph ph-eye"></i>
+                </button>
+                <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Password must be at least 8 characters.</p>
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300">
+                Login Now
+            </button>
+
+            <p id="loginError" class="text-red-500 text-sm mt-3 hidden">Invalid User ID or Password.</p>
+            <p id="loginSuccess" class="text-green-500 text-sm mt-3 hidden">Login successful!</p>
+        </form>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            eyeIcon.classList.toggle('ph-eye');
+            eyeIcon.classList.toggle('ph-eye-slash');
+        }
+
+        function handleLogin(event) {
+            const userID = document.getElementById('userID').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const userIDError = document.getElementById('userIDError');
+            const passwordError = document.getElementById('passwordError');
+            const loginError = document.getElementById('loginError');
+            const loginSuccess = document.getElementById('loginSuccess');
+
+            let isValid = true;
+
+            userIDError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+            loginError.classList.add('hidden');
+            loginSuccess.classList.add('hidden');
+
+            if (!userID) {
+                userIDError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (!password || password.length < 6) {
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (!isValid) return false;
+
+            // Updated mock authentication with proper credentials and navigation
+            if (userID === "berry" && password === "password") {
+                loginSuccess.classList.remove('hidden');
+                // Add a small delay before redirecting to show the success message
+                setTimeout(() => {
+                    window.location.href = 'Appointment.html';
+                }, 1000);
+            } else {
+                loginError.classList.remove('hidden');
+            }
+
+            return false;
+        }
+    </script>
+</body>
+</html>
